@@ -10,24 +10,65 @@ import XCTest
 @testable import Performance
 
 class PerformanceTests: XCTestCase {
+    var testDataInt = Array(1...1000)
+    var testDataDouble = Array(stride(from: 1.0, through: 10000.0, by: 0.5))
 
-    override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
+    // MARK - Int Tests
+    
+    func testIntMap() {
         self.measure {
-            // Put the code you want to measure the time of here.
+            _ = testDataInt.map() { print($0 * 2) }
+        }
+    }
+    func testIntForEach() {
+        self.measure {
+            testDataInt.forEach() { print($0 * 2) }
+        }
+    }
+    func testIntForIn() {
+        self.measure {
+            for i in testDataInt {
+                print(i * 2)
+            }
+        }
+    }
+    
+    // MARK - Double Tests
+    
+    func testDoubleMap() {
+        self.measure {
+            _ = testDataDouble.map() { print($0 * 2) }
+        }
+    }
+    func testDoubleForEach() {
+        self.measure {
+            testDataDouble.forEach() { print($0 * 2) }
+        }
+    }
+    func testDoubleForIn() {
+        self.measure {
+            for i in testDataDouble {
+                print(i * 2)
+            }
+        }
+    }
+
+    // MARK - Conditions
+
+    func testForInWhere() {
+        self.measure {
+            for i in testDataInt where i % 2 == 0 {
+                print(i * 2)
+            }
+        }
+    }
+    func testForInIf() {
+        self.measure {
+            for i in testDataInt {
+                if i % 2 == 0 {
+                    print(i * 2)
+                }
+            }
         }
     }
 
