@@ -15,17 +15,17 @@ class PerformanceTests: XCTestCase {
 
     // MARK - Int Tests
     
-    func testIntMap() {
+    func testIntMap() { // 0.06
         self.measure {
             _ = testDataInt.map() { print($0 * 2) }
         }
     }
-    func testIntForEach() {
+    func testIntForEach() { //0.04
         self.measure {
             testDataInt.forEach() { print($0 * 2) }
         }
     }
-    func testIntForIn() {
+    func testIntForIn() { //0.05
         self.measure {
             for i in testDataInt {
                 print(i * 2)
@@ -35,17 +35,17 @@ class PerformanceTests: XCTestCase {
     
     // MARK - Double Tests
     
-    func testDoubleMap() {
+    func testDoubleMap() { //0.615
         self.measure {
             _ = testDataDouble.map() { print($0 * 2) }
         }
     }
-    func testDoubleForEach() {
+    func testDoubleForEach() { //0.462
         self.measure {
             testDataDouble.forEach() { print($0 * 2) }
         }
     }
-    func testDoubleForIn() {
+    func testDoubleForIn() { //1.265
         self.measure {
             for i in testDataDouble {
                 print(i * 2)
@@ -55,14 +55,14 @@ class PerformanceTests: XCTestCase {
 
     // MARK - Conditions
 
-    func testForInWhere() {
+    func testForInWhere() { //0.023
         self.measure {
             for i in testDataInt where i % 2 == 0 {
                 print(i * 2)
             }
         }
     }
-    func testForInIf() {
+    func testForInIf() {  //0.486
         self.measure {
             for i in testDataInt {
                 if i % 2 == 0 {
@@ -71,5 +71,7 @@ class PerformanceTests: XCTestCase {
             }
         }
     }
+
+    // MARK - Filter/Drop/Findf irst
 
 }
