@@ -9,9 +9,13 @@
 import XCTest
 @testable import Performance
 
+var maxIteration = 1000
+
 class PerformanceTests: XCTestCase {
-    var testDataInt = Array(1...1000)
-    var testDataDouble = Array(stride(from: 1.0, through: 10000.0, by: 0.5))
+    var testDataInt = Array(1...maxIteration)
+    var testDataDouble = Array(stride(from: 1.0, through: Double(maxIteration), by: 0.5))
+    var testDummyObjects = DummyClass.generateData(maxIteration)
+    var testDummyStructs = DummyStructure.generateData(maxIteration)
 
     // MARK - Int Tests
     
@@ -72,6 +76,47 @@ class PerformanceTests: XCTestCase {
         }
     }
 
-    // MARK - Filter/Drop/Findf irst
+    // MARK - Filter/Drop
+
+    func testForFilter() { // 0.053 - 0.072 - 0.124
+        self.measure {
+            let filter = testDataInt.filter { $0 % 2 == 0 }
+            print(filter)
+        }
+    }
+    
+    func testForDrop() {  // 0.641 - 0.121 - 0.153
+        self.measure {
+            let drop = testDataInt.drop { $0 % 2 != 0 }
+            print(drop)
+        }
+    }
+
+    func testForFilterClass() { //0.701
+        self.measure {
+            let filter = testDummyObjects.filter { $0.isAdmin || $0.isOwner }
+            print(filter)
+        }
+    }
+    func testForDropClass() { //1.042
+        self.measure {
+            let drop = testDummyObjects.drop { !$0.isAdmin && !$0.isOwner }
+            print(drop)
+        }
+    }
+
+    func testForFilterStruct() { //1.942
+        self.measure {
+            let filter = testDummyStructs.filter { $0.isAdmin || $0.isOwner }
+            print(filter)
+        }
+    }
+    func testForDropStruct() {  //2.242
+        self.measure {
+            let drop = testDummyStructs.drop { !$0.isAdmin && !$0.isOwner }
+            print(drop)
+        }
+    }
+
 
 }
